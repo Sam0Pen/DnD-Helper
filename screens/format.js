@@ -7,26 +7,28 @@ import * as SQLite from 'expo-sqlite';
 export default function Format({navigation}) {
   
   const db  = SQLite.openDatabase('dnd.db');
-  const [nameValue, setName] = useState('');
-  const [raceValue, setRace] = useState('dragonborn');
-  const [classValue, setClass] = useState('barbarian');
-  const [originValue, setOrigin] = useState('acolyte');
-  const [healthValue, setHealth] = useState('0');
-  const [speedValue, setSpeed] = useState('0');
-  const [armorValue, setArmor] = useState('0');
-  const [bonusValue, setBonus] = useState('2');
-  const [strenghtValue, setStrenght] = useState('0');
-  const [dexValue, setDex] = useState('0');
-  const [constValue, setConst] = useState('0');
-  const [intelValue, setIntel] = useState('0');
-  const [wisValue, setWis] = useState('0');
-  const [charisValue, setCharis] = useState('0');
+  const [char, setChar] = useState({
+    nameValue: '',
+    raceValue: 'dragonborn',
+    classValue: 'barbarian', 
+    originValue: 'acolyte',
+    healthValue: '0',
+    speedValue: '0', 
+    armorValue: '0',
+    bonusValue: '2',
+    strenghtValue: '0',
+    dexValue: '0',
+    constValue: '0',
+    intelValue: '0',
+    wisValue: '0',
+    charisValue: '0'
+  })
 
 
   const saveChar = () => {
     db.transaction(tx => {
       tx.executeSql('insert into character (name, race, class, origin, hp, speed, ac, bonus, strenght, dex, const, intel, wisdom, charisma) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', 
-      [nameValue, raceValue, classValue, originValue, parseInt(healthValue), parseInt(speedValue), parseInt(armorValue), parseInt(bonusValue), parseInt(strenghtValue), parseInt(dexValue), parseInt(constValue), parseInt(intelValue), parseInt(wisValue), parseInt(charisValue)],
+      [char.nameValue, char.raceValue, char.classValue, char.originValue, parseInt(char.healthValue), parseInt(char.speedValue), parseInt(char.armorValue), parseInt(char.bonusValue), parseInt(char.strenghtValue), parseInt(char.dexValue), parseInt(char.constValue), parseInt(char.intelValue), parseInt(char.wisValue), parseInt(char.charisValue)],
       (tx, results) => {
         console.log('Results', results.rowsAffected);
         if (results.rowsAffected > 0) {
@@ -45,16 +47,16 @@ export default function Format({navigation}) {
     <View style={styles.container}>
         <View style={styles.w100}>
             <Text style={styles.text}>Character Name</Text>
-            <TextInput onChangeText={nameValue => setName(nameValue)} value={nameValue} style={styles.textinput} placeholder='your character name'/>
+            <TextInput onChangeText={nameValue => setChar(old => ({ ...old, nameValue}))} value={char.nameValue} style={styles.textinput} placeholder='your character name'/>
         </View>
         <View style={styles.row}>
             <View style={styles.w100}>
                 <Text style={styles.text}>Race</Text>
                 <Picker
                 style={styles.picker}
-                selectedValue={raceValue}
-                onValueChange={(itemValue) =>
-                    setRace(itemValue)}
+                selectedValue={char.raceValue}
+                onValueChange={(raceValue) =>
+                    setChar(old => ({ ...old, raceValue}))}
                     >
                       <Picker.Item label='Dragonborn' value='dragonborn' />
                       <Picker.Item label='Dwarf' value='dwarf' />
@@ -73,9 +75,9 @@ export default function Format({navigation}) {
                 <Text style={styles.text}>Class</Text>
                 <Picker
                 style={styles.picker}
-                selectedValue={classValue}
-                onValueChange={(itemValue) =>
-                    setClass(itemValue)}
+                selectedValue={char.classValue}
+                onValueChange={(classValue) =>
+                  setChar(old => ({ ...old, classValue}))}
                     >
                         <Picker.Item label='Barbarian' value='barbarian' />
                         <Picker.Item label='Bard' value='bard' />
@@ -95,9 +97,9 @@ export default function Format({navigation}) {
                 <Text style={styles.text}>Origin</Text>
                 <Picker
                 style={styles.picker}
-                selectedValue={originValue}
-                onValueChange={(itemValue) =>
-                    setOrigin(itemValue)}
+                selectedValue={char.originValue}
+                onValueChange={(originValue) =>
+                  setChar(old => ({ ...old, originValue}))}
                     >
                         <Picker.Item label='Acolyte' value='acolyte' />
                         <Picker.Item label='Charlatan' value='charlatan' />
@@ -118,47 +120,47 @@ export default function Format({navigation}) {
         <View style={styles.row}>
           <View style={styles.w25}>
           <Text style={styles.text}>Health</Text>
-          <TextInput keyboardType='numeric' onChangeText={healthValue => setHealth(healthValue)} value={healthValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={healthValue => setChar(old => ({ ...old, healthValue}))} value={char.healthValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Speed</Text>
-          <TextInput keyboardType='numeric' onChangeText={speedValue => setSpeed(speedValue)} value={speedValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={speedValue => setChar(old => ({ ...old, speedValue}))} value={char.speedValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Armor Class</Text>
-          <TextInput keyboardType='numeric' onChangeText={armorValue => setArmor(armorValue)} value={armorValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={armorValue => setChar(old => ({ ...old, armorValue}))} value={char.armorValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Prof Bonus</Text>
-          <TextInput keyboardType='numeric' onChangeText={bonusValue => setBonus(bonusValue)} value={bonusValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={bonusValue => setChar(old => ({ ...old, bonusValue}))} value={char.bonusValue} style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.w33}>
           <Text style={styles.text}>Strength</Text>
-          <TextInput keyboardType='numeric' onChangeText={strenghtValue => setStrenght(strenghtValue)} value={strenghtValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={strenghtValue => setChar(old => ({ ...old, strenghtValue}))}  value={char.strenghtValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Dexterity</Text>
-          <TextInput keyboardType='numeric' onChangeText={dexValue=> setDex(dexValue)} value={dexValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={dexValue => setChar(old => ({ ...old, dexValue}))}  value={char.dexValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Constitution</Text>
-          <TextInput keyboardType='numeric' onChangeText={constValue => setConst(constValue)} value={constValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={constValue => setChar(old => ({ ...old, constValue}))} value={char.constValue} style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.w33}>
           <Text style={styles.text}>Intelligence</Text>
-          <TextInput keyboardType='numeric' onChangeText={intelValue => setIntel(intelValue)} value={intelValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={intelValue => setChar(old => ({ ...old, intelValue}))} value={char.intelValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Wisdom</Text>
-          <TextInput keyboardType='numeric' onChangeText={wisValue => setWis(wisValue)} value={wisValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={wisValue => setChar(old => ({ ...old, wisValue}))} value={char.wisValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Charisma</Text>
-          <TextInput keyboardType='numeric' onChangeText={charisValue => setCharis(charisValue)} value={charisValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={charisValue => setChar(old => ({ ...old, charisValue}))} value={char.charisValue} style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.buttons}>

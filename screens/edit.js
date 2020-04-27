@@ -7,23 +7,24 @@ import * as SQLite from 'expo-sqlite';
 export default function Edit({navigation}) {
   
   const db  = SQLite.openDatabase('dnd.db');
-  const [nameValue, setName] = useState(navigation.getParam('name'));
-  const [healthValue, setHealth] = useState(navigation.getParam('hp').toString());
-  const [speedValue, setSpeed] = useState(navigation.getParam('speed').toString());
-  const [armorValue, setArmor] = useState(navigation.getParam('ac').toString());
-  const [bonusValue, setBonus] = useState(navigation.getParam('bonus').toString());
-  const [strenghtValue, setStrenght] = useState(navigation.getParam('strenght').toString());
-  const [dexValue, setDex] = useState(navigation.getParam('dex').toString());
-  const [constValue, setConst] = useState(navigation.getParam('const').toString());
-  const [intelValue, setIntel] = useState(navigation.getParam('intel').toString());
-  const [wisValue, setWis] = useState(navigation.getParam('wisdom').toString());
-  const [charisValue, setCharis] = useState(navigation.getParam('charisma').toString());
-
+  const [char, setChar] = useState({
+    nameValue: navigation.getParam('name').toString(),
+    healthValue: navigation.getParam('hp').toString(),
+    speedValue: navigation.getParam('speed').toString(), 
+    armorValue: navigation.getParam('ac').toString(),
+    bonusValue: navigation.getParam('bonus').toString(),
+    strenghtValue:  navigation.getParam('strenght').toString(),
+    dexValue: navigation.getParam('dex').toString(),
+    constValue: navigation.getParam('const').toString(),
+    intelValue: navigation.getParam('intel').toString(),
+    wisValue: navigation.getParam('wisdom').toString(),
+    charisValue: navigation.getParam('charisma').toString()
+  })
 
   const updateChar = () => {
     db.transaction(tx => {
       tx.executeSql('Update character set name=?, hp=?, speed=?, ac=?, bonus=?, strenght=?, dex=?, const=?, intel=?, wisdom=?, charisma=? where id=?;', 
-      [nameValue, parseInt(healthValue), parseInt(speedValue), parseInt(armorValue), parseInt(bonusValue), parseInt(strenghtValue), parseInt(dexValue), parseInt(constValue), parseInt(intelValue), parseInt(wisValue), parseInt(charisValue), navigation.getParam('id')],
+      [char.nameValue, parseInt(char.healthValue), parseInt(char.speedValue), parseInt(char.armorValue), parseInt(char.bonusValue), parseInt(char.strenghtValue), parseInt(char.dexValue), parseInt(char.constValue), parseInt(char.intelValue), parseInt(char.wisValue), parseInt(char.charisValue), navigation.getParam('id')],
       (tx, results) => {
         console.log('Results', results.rowsAffected);
         if (results.rowsAffected > 0) {
@@ -42,52 +43,52 @@ export default function Edit({navigation}) {
     <View style={styles.container}>
         <View style={styles.w100}>
             <Text style={styles.text}>Character Name</Text>
-            <TextInput onChangeText={nameValue => setName(nameValue)} value={nameValue} style={styles.textinput}/>
+            <TextInput onChangeText={nameValue => setChar(old => ({ ...old, nameValue}))} value={char.nameValue} style={styles.textinput}/>
         </View>
         <View style={styles.row}>
           <View style={styles.w25}>
           <Text style={styles.text}>Health</Text>
-          <TextInput keyboardType='numeric' onChangeText={healthValue => setHealth(healthValue)} value={healthValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={healthValue => setChar(old => ({ ...old, healthValue}))} value={char.healthValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Speed</Text>
-          <TextInput keyboardType='numeric' onChangeText={speedValue => setSpeed(speedValue)} value={speedValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={speedValue => setChar(old => ({ ...old, speedValue}))} value={char.speedValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Armor Class</Text>
-          <TextInput keyboardType='numeric' onChangeText={armorValue => setArmor(armorValue)} value={armorValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={armorValue => setChar(old => ({ ...old, armorValue}))} value={char.armorValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w25}>
           <Text style={styles.text}>Prof Bonus</Text>
-          <TextInput keyboardType='numeric' onChangeText={bonusValue => setBonus(bonusValue)} value={bonusValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={bonusValue => setChar(old => ({ ...old, bonusValue}))} value={char.bonusValue}  style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.w33}>
           <Text style={styles.text}>Strength</Text>
-          <TextInput keyboardType='numeric' onChangeText={strenghtValue => setStrenght(strenghtValue)} value={strenghtValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={strenghtValue => setChar(old => ({ ...old, strenghtValue}))}  value={char.strenghtValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Dexterity</Text>
-          <TextInput keyboardType='numeric' onChangeText={dexValue=> setDex(dexValue)} value={dexValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={dexValue => setChar(old => ({ ...old, dexValue}))}  value={char.dexValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Constitution</Text>
-          <TextInput keyboardType='numeric' onChangeText={constValue => setConst(constValue)} value={constValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={constValue => setChar(old => ({ ...old, constValue}))} value={char.constValue} style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.w33}>
           <Text style={styles.text}>Intelligence</Text>
-          <TextInput keyboardType='numeric' onChangeText={intelValue => setIntel(intelValue)} value={intelValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={intelValue => setChar(old => ({ ...old, intelValue}))} value={char.intelValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Wisdom</Text>
-          <TextInput keyboardType='numeric' onChangeText={wisValue => setWis(wisValue)} value={wisValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric' onChangeText={wisValue => setChar(old => ({ ...old, wisValue}))} value={char.wisValue} style={styles.textinput25}/>
           </View>
           <View style={styles.w33}>
           <Text style={styles.text}>Charisma</Text>
-          <TextInput keyboardType='numeric' onChangeText={charisValue => setCharis(charisValue)} value={charisValue} style={styles.textinput25}/>
+          <TextInput keyboardType='numeric'  onChangeText={charisValue => setChar(old => ({ ...old, charisValue}))} value={char.charisValue} style={styles.textinput25}/>
           </View>
         </View>
         <View style={styles.buttons}>
