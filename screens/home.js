@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 1,
     marginRight: 37,
+    marginBottom: 10,
     width: '90%',
   },
   w100: {
