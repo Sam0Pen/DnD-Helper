@@ -66,7 +66,7 @@ export default function Format({navigation}) {
                       <Picker.Item label='Halfling' value='halfling' />
                       <Picker.Item label='Half-Orc' value='half-orc' />
                       <Picker.Item label='Human' value='human' />
-                      <Picker.Item label='Thiefling' value='thefling' />
+                      <Picker.Item label='Thiefling' value='thiefling' />
                 </Picker>
             </View>
         </View>
